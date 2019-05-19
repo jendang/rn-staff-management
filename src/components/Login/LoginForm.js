@@ -4,12 +4,11 @@ import {
     Card,
     CardSection,
     Button,
-    Input
+    Input,
+    Spinner
 } from '../common'
 import { connect } from 'react-redux'
 import { emailChanged, passwordChanged, loginUser } from '../../actions'
-
-
 
 class LoginForm extends React.Component {
 
@@ -38,6 +37,18 @@ class LoginForm extends React.Component {
         }
     }
 
+    renderButton = () => {
+        if(this.props.loading){
+            return <Spinner size="large" /> 
+        }
+        return (
+            <Button 
+                text={`Login`}
+                onPress={this.onButtonPress}
+            />
+        )
+    }
+
     render(){
         console.log(this.props)
         return(
@@ -54,17 +65,14 @@ class LoginForm extends React.Component {
                     <Input 
                         secureTextEntry
                         label="Password"
-                        placeholder="password"
+                        placeholder="at least 6 characters"
                         onChangeText={this.onPasswordChange}
                         value={this.props.password}
                     />
                 </CardSection>
                 {this.renderError()}
                 <CardSection>
-                    <Button 
-                        text={`Login`}
-                        onPress={this.onButtonPress}
-                    />
+                    {this.renderButton()}
                 </CardSection>
                 
             </Card>
@@ -76,7 +84,8 @@ const mapStateToProps = state => {
     return {
         email: state.auth.email,
         password: state.auth.password,
-        error: state.auth.error
+        error: state.auth.error,
+        loading: state.auth.loading
     }
 }
 
