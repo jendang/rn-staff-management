@@ -3,10 +3,7 @@ import { View } from 'react-native';
 import { Provider } from 'react-redux'
 import { store } from './src/store'
 import db from './src/db'
-import {
-  Header,
-} from './src/components/common'
-import LoginForm from './src/components/Login/LoginForm';
+import Router from './src/Router'
 
 export default class App extends Component {
   componentWillMount(){
@@ -17,8 +14,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <View style={{ flex: 1 }}>
-          <Header headerText={`Login`} />
-          <LoginForm />
+          <Router />
         </View>
       </Provider>
     )
