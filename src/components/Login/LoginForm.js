@@ -6,7 +6,6 @@ import {
     Button,
     Input,
     Spinner,
-    // Header
 } from '../common'
 import { connect } from 'react-redux'
 import { emailChanged, passwordChanged, loginUser } from '../../actions'
@@ -51,10 +50,8 @@ class LoginForm extends React.Component {
     }
 
     render(){
-        console.log(this.props)
         return(
             <Card>
-                {/* <Header headerText={`Login`} /> */}
                 <CardSection>
                     <Input 
                         label="Email"
