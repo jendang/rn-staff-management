@@ -1,27 +1,17 @@
 import React from 'react'
-// import  { Picker, Text } from 'react-native'
+import { View, Text, Picker } from 'react-native'
 import {
-    Card,
     CardSection,
-    Button,
-    //Input
+    Input
 } from '../common'
-import EmployeeForm from './EmployeeForm'
 import { connect } from 'react-redux'
-import { employeeUpdate, employeeCreate } from '../../actions/employeeAction'
+import { employeeUpdate } from '../../actions/employeeAction'
 
-
-class EmployeeCreate extends React.Component {
-    onButtonPress = () => {
-        const { name, phone, shift } = this.props
-        this.props.employeeCreate({ name, phone, shift: shift || 'Monday'})
-    }
-
+class EmployeeForm extends React.Component {
     render() {
-        return(
-            <Card>
-                <EmployeeForm {...this.props} />
-                {/* <CardSection>
+        return (
+            <View>
+                <CardSection>
                     <Input 
                         label="Name"
                         placeholder="Jenny"
@@ -54,16 +44,16 @@ class EmployeeCreate extends React.Component {
                         <Picker.Item label="Saturday" value="Saturday"/>
                         <Picker.Item label="Sunday" value="Sunday"/>
                     </Picker>
-                </CardSection> */}
-                <CardSection>
-                    <Button 
-                        onPress={this.onButtonPress}
-                        text={`Create`} 
-
-                    />
                 </CardSection>
-            </Card>
+            </View>
         )
+    }
+}
+
+const styles = {
+    pickerTextStyle: {
+        fontSize: 18,
+        paddingLeft: 20
     }
 }
 
@@ -72,11 +62,4 @@ const mapStateToProps = state => {
     return { name, phone, shift }
 }
 
-/* const styles = {
-    pickerTextStyle: {
-        fontSize: 18,
-        paddingLeft: 20
-    }
-} */
-
-export default connect(mapStateToProps, { employeeUpdate, employeeCreate }  ) (EmployeeCreate)
+export default connect(mapStateToProps, { employeeUpdate }) (EmployeeForm)

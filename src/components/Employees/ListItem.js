@@ -10,7 +10,7 @@ import { Actions } from 'react-native-router-flux';
 class ListItem extends React.Component {
 
     onRowPress = () => {
-        Actions.employeeCreate()
+        Actions.employeeEdit({ employee: this.props.employee })
     }
 
     render() {
