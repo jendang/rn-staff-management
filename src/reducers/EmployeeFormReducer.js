@@ -1,7 +1,7 @@
 import {
     EMPLOYEE_UPDATE,
     EMPLOYEE_CREATE,
-    EMPLOYEE_FETCH_SUCCESS,
+    // EMPLOYEE_FETCH_SUCCESS,
     EMPLOYEE_SAVE_SUCCESS
    
 } from '../actions/types'
@@ -18,8 +18,8 @@ export default (state = initialState, action ) => {
             return {...state, [action.payload.prop]: action.payload.value }
         case EMPLOYEE_CREATE:
             return initialState
-        case EMPLOYEE_FETCH_SUCCESS:
-            return action.payload
+        // case EMPLOYEE_FETCH_SUCCESS:
+        //     return action.payload
         case EMPLOYEE_SAVE_SUCCESS:
             return initialState
         default:

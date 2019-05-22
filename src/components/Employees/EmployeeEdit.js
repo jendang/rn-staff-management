@@ -7,7 +7,7 @@ import {
 } from '../common'
 import EmployeeForm from './EmployeeForm'
 import { connect } from 'react-redux'
-import { employeeUpdate, employeeFetch, employeeSave } from '../../actions/employeeAction'
+import { employeeUpdate, employeeSave } from '../../actions/employeeAction'
 
 
 class EmployeeEdit extends React.Component {
@@ -19,7 +19,7 @@ class EmployeeEdit extends React.Component {
             { prop: 'shift', value: shift },  
         ) */
         _.each(this.props.employee, (value, prop) => {
-            this.props.employeedUpdate({ prop, value })
+            this.props.employeeUpdate({ prop, value })
         }) 
 
         //this.props.employeeFetch({uid: this.props.employee.uid})
@@ -28,7 +28,7 @@ class EmployeeEdit extends React.Component {
     onButtonPress = () => {
         const { name, phone, shift } = this.props
         //console.log(name, phone, shift)
-        this.props.employeeSave({ uid: this.props.employee.uid })
+        this.props.employeeSave({ name, phone, shift, id: this.props.employee.uid })
     }
 
     render() {
@@ -53,4 +53,4 @@ const mapStateToProps = state => {
     return { name, phone, shift }
 }
 
-export default connect(mapStateToProps, { employeeUpdate, employeeFetch, employeeSave }) (EmployeeEdit)
+export default connect(mapStateToProps, { employeeUpdate, employeeSave }) (EmployeeEdit)
