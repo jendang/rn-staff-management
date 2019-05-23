@@ -36,7 +36,6 @@ export const employeeCreate = ({ name, phone, shift }) => {
 //snapshot is Obj describe the data
 export const employeesFetch = () => {
     const { currentUser } = firebase.auth()
-    console.log(firebase.auth())
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/employees`)
             .on('value', snapshot => {
@@ -53,7 +52,7 @@ export const employeeFetch = ({uid}) => {
     const { currentUser } = firebase.auth()
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
-            .on('value', snapshot => {
+            .once('value', snapshot => {
                 dispatch({ 
                     type: EMPLOYEE_FETCH_SUCCESS,
                     payload: snapshot.val()
@@ -62,16 +61,33 @@ export const employeeFetch = ({uid}) => {
     }
 }
 
-export const employeeSave = ({ name, phone, shift, id }) => {
+//save update
+export const employeeSave = ({ name, phone, shift, uid }) => {
     const { currentUser } = firebase.auth()
 
     return (dispatch) => {
-        firebase.database().ref(`/users/${currentUser.uid}/employees/${id}`)
-            .set({ name, phone, shift })
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+            .set({ name, phone, shift }) //.set(update data)
             .then(() => {
                 dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
                 Actions.employeeList({ type: 'reset' })
             })
+    }
+
+}
+
+//delete employee
+
+export const employeeDelete = ({ id }) => {
+    const { currentUser } = firebase.auth()
+
+    return () => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${id}`)
+            .remove()
+            .then(() => {
+                Actions.employeeList({ type: 'reset'})
+            })
+
     }
 
 }
