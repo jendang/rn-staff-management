@@ -1,16 +1,27 @@
 import _ from 'lodash'
 import React from 'react'
+import Communications from 'react-native-communications'
 import { 
     Card,
     CardSection,
-    Button
+    Button,
+    Confirm
 } from '../common'
 import EmployeeForm from './EmployeeForm'
 import { connect } from 'react-redux'
-import { employeeUpdate, employeeSave } from '../../actions/employeeAction'
+import { 
+    employeeUpdate, 
+    employeeSave,
+    employeeDelete,
+    employeeFetch
+} from '../../actions/employeeAction'
 
 
 class EmployeeEdit extends React.Component {
+    state={
+        showModal: false
+    }
+
     componentWillMount() {
         /* const { name, phone, shift } = this.props
         this.props.employeeUpdate(
@@ -18,30 +29,69 @@ class EmployeeEdit extends React.Component {
             { prop: 'phone', value: phone },
             { prop: 'shift', value: shift },  
         ) */
-        _.each(this.props.employee, (value, prop) => {
+        /* _.each(this.props.employee, (value, prop) => {
             this.props.employeeUpdate({ prop, value })
-        }) 
+        })  */
 
-        //this.props.employeeFetch({uid: this.props.employee.uid})
+        this.props.employeeFetch({uid: this.props.employee.uid})
     }
 
     onButtonPress = () => {
         const { name, phone, shift } = this.props
         //console.log(name, phone, shift)
-        this.props.employeeSave({ name, phone, shift, id: this.props.employee.uid })
+        this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid })
+    }
+
+    onTextPress = () => {
+        const { phone, shift } = this.props
+        Communications.text(phone, `Your up coming shift is on ${shift}`)
+
+    }
+
+    //delete employee
+    onAccept = () => {
+        this.props.employeeDelete({ id: this.props.employee.uid })
+    }
+
+    //just close the Modal
+    onDecline = () => {
+        this.setState({ showModal: false })
     }
 
     render() {
         //console.log(this.props.employee)
         return(
             <Card>
-                <EmployeeForm />
+                <EmployeeForm {...this.props }/>
+
                 <CardSection>
                     <Button 
                         text="Save changes"
                         onPress={this.onButtonPress}
                     />
                 </CardSection>
+
+                <CardSection>
+                    <Button 
+                        onPress={this.onTextPress} 
+                        text="Text Schedule"
+                    />
+                </CardSection>
+
+                <CardSection>
+                    <Button 
+                        onPress={() => this.setState({ showModal: !this.state.showModal })} 
+                        text="Delete"
+                    />
+                </CardSection>
+
+                <Confirm 
+                    visible={this.state.showModal}
+                    onAccept={this.onAccept}
+                    onDecline={this.onDecline}
+                >
+                    Are you sure you want to delete this?
+                </Confirm>
             </Card>
 
         )
@@ -53,4 +103,10 @@ const mapStateToProps = state => {
     return { name, phone, shift }
 }
 
-export default connect(mapStateToProps, { employeeUpdate, employeeSave }) (EmployeeEdit)
+export default connect(
+    mapStateToProps, { 
+        employeeUpdate, 
+        employeeSave, 
+        employeeDelete,
+        employeeFetch
+    }) (EmployeeEdit)
