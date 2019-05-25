@@ -55,7 +55,8 @@ export const employeeFetch = ({uid}) => {
             .once('value', snapshot => {
                 dispatch({ 
                     type: EMPLOYEE_FETCH_SUCCESS,
-                    payload: snapshot.val()
+                    payload: snapshot.val() 
+                    //&& snapshot.val().name || "anynomous"
                 }) 
             })
     }
@@ -78,11 +79,11 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
 
 //delete employee
 
-export const employeeDelete = ({ id }) => {
+export const employeeDelete = ({ uid }) => {
     const { currentUser } = firebase.auth()
 
     return () => {
-        firebase.database().ref(`/users/${currentUser.uid}/employees/${id}`)
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
             .remove()
             .then(() => {
                 Actions.employeeList({ type: 'reset'})

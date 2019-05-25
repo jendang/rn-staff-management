@@ -19,7 +19,11 @@ import {
 
 class EmployeeEdit extends React.Component {
     state={
-        showModal: false
+        showModal: false,
+       /*  name: '',
+        phone: '',
+        shift: '' */
+        
     }
 
     componentWillMount() {
@@ -33,13 +37,16 @@ class EmployeeEdit extends React.Component {
             this.props.employeeUpdate({ prop, value })
         })  */
 
-        this.props.employeeFetch({uid: this.props.employee.uid})
+        this.props.employeeFetch({uid: this.props.employee.uid })
+        //console.log(this.props.employee)
+
     }
 
     onButtonPress = () => {
         const { name, phone, shift } = this.props
         //console.log(name, phone, shift)
         this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid })
+        console.log(this.props.employee.uid)
     }
 
     onTextPress = () => {
@@ -50,7 +57,7 @@ class EmployeeEdit extends React.Component {
 
     //delete employee
     onAccept = () => {
-        this.props.employeeDelete({ id: this.props.employee.uid })
+        this.props.employeeDelete({ uid: this.props.employee.uid })
     }
 
     //just close the Modal
@@ -59,10 +66,10 @@ class EmployeeEdit extends React.Component {
     }
 
     render() {
-        //console.log(this.props.employee)
+        console.log(this.props)
         return(
             <Card>
-                <EmployeeForm {...this.props }/>
+                <EmployeeForm/>
 
                 <CardSection>
                     <Button 
